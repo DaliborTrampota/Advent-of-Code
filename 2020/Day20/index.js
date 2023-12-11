@@ -5,7 +5,7 @@ let rawInput = fs.readFileSync(path.join(path.dirname(__filename), `input.txt`),
 
 //took part one 30min 
 console.time('Part one');
-console.log(partOne(parseInput(rawInput, false)));
+//console.log(partOne(parseInput(rawInput, false)));
 console.timeEnd('Part one');
 
 console.log('\n\n');
@@ -79,7 +79,33 @@ function partTwo(tiles){
             }
         }
     }
-    let a = Math.sqrt(tileEntries.length)
+    
+    const a = Math.sqrt(Object.keys(tiles).length)
+    const arr = Array.from({ length: a }, () => Array.from({ length: a }, () => false))
+    const entries = Object.entries(tiles)
+    let corners = getCornerIDs(tileEntries)
+    for(let id of corners) {
+        const t = tiles[id]
+        let x, y
+        if(!t.neighbours.top) y = 0
+        else y = a - 1
+
+        if(!t.neighbours.right) x = a - 1
+        else x = 0
+        console.log(x, y, t.neighbours)
+        arr[y][x] = id
+    }
+    //console.log(arr)
+    while(entries.length) {
+
+    }
+    for(let id in tiles) {
+        console.log(id, tiles[id].neighbours)
+    }
+    for(let i = 0; i < 4; i++) {
+
+    }
+    return
     let sea = Array.from({ length: a }, () => Array.from({ length: a }, () => 'null'))
 
     let leftUpperCorner = getCornerIDs(tileEntries).filter(id => tiles[id].neighbours.top == null && tiles[id].neighbours.left == null)[0]
@@ -121,6 +147,17 @@ function partTwo(tiles){
 }
 
 
+function rotate(arr) {
+    const newArr = []
+    for(let i = 0; i < arr[0].length; i++) {
+        let newRow = ''
+        for(let r of arr) {
+            newRow += r[arr[0].length - i - 1]
+        }
+        newArr.push(newRow)
+    }
+    return newArr
+}
 
 
 function reverseSide(side){
